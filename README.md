@@ -32,9 +32,42 @@ Switching back and forth between YouTube and a separate note-taking app is distr
 - **Styling**: Modern vanilla CSS with dynamic glassmorphism, responsive design, and fluid micro-animations
 - **Browser APIs**: Chrome Extension API (Manifest V3, Service Workers, Content Scripts)
 
-## Backend Repository
-The backend API powering this extension is built with FastAPI and MongoDB. You can find the source code here:
-[Note Tube Backend](https://github.com/SHubhamanjk/note-tube-backend)
+
+## Local Setup & Development
+
+To run this extension locally, you need to set up both the backend API and the frontend extension.
+
+### 1. Set Up the Backend
+First, clone and start the backend server:
+```bash
+# Clone the backend repository
+git clone https://github.com/SHubhamanjk/note-tube-backend.git
+cd note-tube-backend
+
+# Create a virtual environment and activate it
+python -m venv .venv
+# On Windows: .\.venv\Scripts\activate
+# On Mac/Linux: source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment variables (copy .env.example to .env and fill in keys)
+# Run the backend server
+uvicorn main:app --reload
+```
+
+### 2. Set Up the Extension
+```bash
+# Clone the frontend repository
+git clone https://github.com/SHubhamanjk/note-tube-browser-extension-frontend.git
+cd note-tube-browser-extension-frontend
+```
+1. Open Google Chrome and go to `chrome://extensions/`.
+2. Enable **Developer mode** in the top right corner.
+3. Click **Load unpacked** and select the `note-tube-browser-extension-frontend` folder.
+4. The extension is now installed! Pin it to your toolbar and open any YouTube video to see it in action. *(Note: Ensure `lib/api.js` is pointing to `http://localhost:8000` for local development).*
+
 
 ## Future Roadmap & Challenges
 
@@ -47,3 +80,11 @@ We have ambitious plans for the future of Note Tube! Some upcoming features in o
 As we scale these features, we are actively working through a few technical hurdles:
 - **AI Cost at Scale**: Generating context-heavy features (like interactive quizzes and full-length summaries) requires significant LLM usage, which poses a challenge for maintaining cost-efficiency as our user base grows.
 - **Consistent Video Transcripts**: Reliably extracting highly accurate transcripts from every YouTube video remains a challenge due to varying caption availability, language barriers, and auto-generation inconsistencies.
+
+## Backend Repository
+The backend API powering this extension is built with FastAPI and MongoDB. You can find the source code here:
+[Note Tube Backend](https://github.com/SHubhamanjk/note-tube-backend)
+
+## Collaboration
+Interested in collaborating or contributing? We'd love to have you! 
+Connect with us at: **+91 8002007238**
