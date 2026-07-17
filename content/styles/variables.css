@@ -1,0 +1,52 @@
+/* ============================================================================
+   Medha.ai Extension - Variables & Base
+   ============================================================================ */
+
+:root {
+  --medha-primary: #6366f1;
+  --medha-primary-dark: #4f46e5;
+  --medha-primary-light: #818cf8;
+  --medha-bg-primary: #0f0f0f;
+  --medha-bg-secondary: #1a1a1a;
+  --medha-bg-tertiary: #242424;
+  --medha-bg-hover: #2a2a2a;
+  --medha-text-primary: #f5f5f5;
+  --medha-text-secondary: #a3a3a3;
+  --medha-text-muted: #737373;
+  --medha-border: #333333;
+  --medha-border-light: #404040;
+  --medha-success: #22c55e;
+  --medha-warning: #f59e0b;
+  --medha-error: #ef4444;
+  --medha-shadow: rgba(0, 0, 0, 0.5);
+  --medha-shadow-lg: rgba(0, 0, 0, 0.7);
+  --medha-radius: 12px;
+  --medha-radius-sm: 8px;
+  --medha-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode scrollbars baseline */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--medha-border) transparent;
+}
+
+/* Common animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+

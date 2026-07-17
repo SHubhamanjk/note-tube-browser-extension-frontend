@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medha.ai - Tutorial Support</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Loading State -->
+    <div id="loading" class="view">
+      <div class="loading-spinner"></div>
+      <p>Loading...</p>
+    </div>
+
+    <!-- Login/Signup View -->
+    <div id="auth-view" class="view hidden">
+      <div class="header">
+        <div class="header-logo">
+          <img src="../assets/logo.png" alt="Medha.ai" />
+        </div>
+        <h1>Note Tube</h1>
+        <p class="subtitle">AI Tutorial Companion</p>
+      </div>
+      
+      <div class="tabs">
+        <button class="tab active" data-tab="login">Login</button>
+        <button class="tab" data-tab="signup">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form" class="form-container">
+        <div class="input-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="your@email.com" />
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" />
+        </div>
+        <button id="login-btn" class="btn-primary">Login</button>
+        <a href="#" id="forgot-password-link" class="forgot-password-link">Forgot Password?</a>
+      </div>
+
+      <!-- Login OTP Step -->
+      <div id="login-otp-step" class="form-container hidden">
+        <p class="step-info">Enter the OTP sent to your email to confirm login.</p>
+        <div class="input-group">
+          <label for="login-otp">OTP</label>
+          <input type="text" id="login-otp" placeholder="123456" />
+        </div>
+        <button id="login-confirm-btn" class="btn-primary">Confirm Login</button>
+      </div>
+
+      <!-- Signup Form -->
+      <div id="signup-form" class="form-container hidden">
+        <p class="signup-note">Create an account to save your notes and chat history.</p>
+        
+        <div class="input-group">
+          <label for="signup-name">Full Name</label>
+          <input type="text" id="signup-name" placeholder="Your Name" />
+        </div>
+        <div class="input-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" placeholder="your@email.com" />
+        </div>
+        <div class="input-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" placeholder="••••••••" />
+        </div>
+        <button id="signup-btn" class="btn-primary">Sign Up</button>
+      </div>
+
+      <p id="auth-message" class="message"></p>
+      
+      <div class="features-section">
+        <div class="features-title">
+          <h3>Unlock Advanced Learning Features</h3>
+          <p class="features-subtitle">Your AI-powered companion for mastering video tutorials</p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <div class="feature-content">
+              <h4>Smart Notes</h4>
+              <p>Timestamped notes with AI-powered organization and search</p>
+            </div>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <div class="feature-content">
+              <h4>AI Chat Assistant</h4>
+              <p>Ask questions about video content and get instant answers</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="website-features">
+          <p class="website-title">Plus advanced features on the <a href="https://medhaai.netlify.app" target="_blank" class="website-link">website</a>:</p>
+          <ul class="website-list">
+            <li>Study groups and collaborative learning</li>
+            <li>Progress tracking and analytics</li>
+            <li>Cross-device sync and cloud storage</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forgot Password View (Hidden by default) -->
+    <div id="forgot-password-view" class="view hidden">
+      <div class="header">
+        <div class="header-logo">
+          <img src="../assets/logo.png" alt="Medha.ai" />
+        </div>
+        <h1>Note Tube</h1>
+        <p class="subtitle" id="forgot-subtitle">Reset your password</p>
+      </div>
+
+      <!-- Step 1: Email -->
+      <div id="forgot-email-step" class="form-container">
+        <p class="step-info">Enter your email to receive a verification code</p>
+        <div class="input-group">
+          <label for="forgot-email">Email</label>
+          <input type="email" id="forgot-email" placeholder="your@email.com" />
+        </div>
+        <button id="send-otp-btn" class="btn-primary">Send OTP</button>
+        <button id="back-to-login-1" class="btn-secondary">Back to Login</button>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div id="forgot-otp-step" class="form-container hidden">
+        <p class="step-info">Enter the 6-digit code sent to <span id="forgot-email-display" class="email-display"></span></p>
+        <div class="input-group">
+          <label for="forgot-otp">Verification Code</label>
+          <input type="text" id="forgot-otp" placeholder="000000" maxlength="6" />
+        </div>
+        <button id="verify-otp-btn" class="btn-primary">Verify OTP</button>
+        <button id="resend-otp-btn" class="btn-secondary">Resend OTP</button>
+      </div>
+
+      <!-- Step 3: New Password -->
+      <div id="forgot-password-step" class="form-container hidden">
+        <p class="step-info">Enter your new password</p>
+        <div class="input-group">
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" placeholder="••••••••" />
+        </div>
+        <div class="input-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" placeholder="••••••••" />
+        </div>
+        <button id="reset-password-btn" class="btn-primary">Reset Password</button>
+      </div>
+
+      <p id="forgot-message" class="message"></p>
+    </div>
+
+    <!-- Logged In View -->
+    <div id="dashboard-view" class="view hidden">
+      <div class="header">
+        <div class="header-logo">
+          <img src="../assets/logo.png" alt="Medha.ai" />
+        </div>
+        <h2>Welcome back!</h2>
+        <p class="user-name"><span id="user-name"></span></p>
+      </div>
+      
+      <div class="status-card">
+        <p id="status-message">Visit any YouTube video to start learning with AI assistance!</p>
+      </div>
+
+      <div class="quick-stats">
+        <div class="stat-item">
+          <div class="stat-value" id="tutorials-count">0</div>
+          <div class="stat-label">Tutorials</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="notes-count">0</div>
+          <div class="stat-label">Notes</div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button id="force-launch-btn" class="btn-primary" style="font-size: 14px;">
+          Launch Note Tube on Current Page
+        </button>
+      </div>
+
+      <div class="dashboard-info">
+        <p class="info-title">How to use the extension:</p>
+        <ol class="usage-steps">
+          <li>Visit any YouTube tutorial video</li>
+          <li>If the Medha icon doesn’t appear instantly, refresh the video page once</li>
+          <li>Click the floating widget to start learning</li>
+          <li>Take notes and chat with AI</li>
+          <li>Access more features on the <a href="https://medhaai.netlify.app" target="_blank" class="dashboard-link">dashboard</a></li>
+        </ol>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 10px; margin-top: 16px;">
+        <button id="donate-btn" class="btn-secondary" style="font-size: 12px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; width: auto; background: transparent; border: 1px solid var(--popup-border); color: var(--popup-text-muted);">
+          <img src="../assets/donate.png" style="width: 14px; height: 14px; object-fit: contain;" alt="Donate" /> Donate
+        </button>
+        <button id="logout-btn" class="btn-secondary" style="font-size: 12px; padding: 6px 12px; display: inline-block; width: auto; background: transparent; border: 1px solid var(--popup-border); color: var(--popup-text-muted);">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../lib/api.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
+

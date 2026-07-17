@@ -1,0 +1,20 @@
+# Extension build artifacts
+*.zip
+*.crx
+*.xpi
+
+# Development files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
+

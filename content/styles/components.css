@@ -1,0 +1,232 @@
+/* ============================================================================
+   Medha.ai Extension - Components (FAB, Widget, Tabs, Notes, Chat)
+   ============================================================================ */
+
+/* FAB */
+.medha-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--medha-primary) 0%, var(--medha-primary-dark) 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px var(--medha-shadow-lg);
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease-out;
+  user-select: none;
+}
+
+.medha-fab-small { width: 48px; height: 48px; box-shadow: 0 6px 18px var(--medha-shadow-lg); }
+.medha-fab-medium { width: 54px; height: 54px; box-shadow: 0 7px 21px var(--medha-shadow-lg); }
+.medha-fab:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 32px var(--medha-shadow-lg); }
+.medha-fab.resizing { cursor: nwse-resize !important; transform: none !important; }
+.medha-fab:active { transform: translateY(-2px) scale(1.02); }
+.medha-fab.dragging { cursor: grabbing; transition: none; opacity: 0.9; transform: scale(1.1); box-shadow: 0 15px 40px var(--medha-shadow-lg); }
+.medha-fab.dragging .medha-fab-tooltip { display: none; }
+.medha-fab-icon { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; animation: pulse 2s infinite; }
+.medha-fab-icon img { background: #ffffff; filter: none; mix-blend-mode: normal; border-radius: 50%; padding: 8px; }
+.medha-fab-tooltip { position: absolute; right: 75px; background: var(--medha-bg-secondary); color: var(--medha-text-primary); padding: 8px 16px; border-radius: var(--medha-radius-sm); font-size: 13px; font-weight: 500; white-space: nowrap; opacity: 0; pointer-events: none; transition: var(--medha-transition); box-shadow: 0 4px 12px var(--medha-shadow); border: 1px solid var(--medha-border); }
+.medha-fab:hover .medha-fab-tooltip { opacity: 1; }
+.medha-fab-resize-handle { position: absolute; width: 20px; height: 20px; opacity: 0; transition: opacity 0.2s ease; z-index: 10; cursor: nwse-resize; }
+.medha-fab-resize-br { bottom: -2px; right: -2px; background: linear-gradient(135deg, transparent 50%, var(--medha-primary) 50%); border-bottom-right-radius: 50%; }
+.medha-fab-resize-br::after { content: ''; position: absolute; bottom: 4px; right: 4px; width: 8px; height: 8px; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M22 22H20V20H22V22M22 18H20V16H22V18M18 22H16V20H18V22M18 18H16V16H18V18M14 22H12V20H14V22M22 14H20V12H22V14Z"/></svg>'); background-size: contain; opacity: 0.9; }
+
+.medha-fab-close { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background: var(--medha-error, #ef4444); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; cursor: pointer; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 15; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.medha-fab-close:hover { transform: scale(1.15); background: #dc2626; }
+.medha-fab:hover .medha-fab-close { opacity: 1; }
+
+/* FAB Size Menu */
+.medha-fab-size-menu { background: var(--medha-bg-primary); border: 1px solid var(--medha-border); border-radius: 12px; padding: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.5); min-width: 160px; backdrop-filter: blur(10px); animation: fadeIn 0.2s ease; }
+.medha-size-menu-header { font-size: 12px; font-weight: 600; color: var(--medha-text-secondary); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 12px; margin-bottom: 4px; }
+.medha-size-option { width: 100%; background: transparent; border: 1px solid transparent; color: var(--medha-text-primary); padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.2s ease; margin-bottom: 4px; }
+.medha-size-option:last-child { margin-bottom: 0; }
+.medha-size-option:hover { background: rgba(255,255,255,0.05); border-color: var(--medha-border); }
+.medha-size-option.active { background: rgba(124,58,237,0.15); border-color: var(--medha-primary); color: var(--medha-primary); }
+.size-indicator { width: 20px; height: 20px; border-radius: 50%; background: var(--medha-primary); opacity: 0.6; flex-shrink: 0; }
+.medha-size-option.active .size-indicator { opacity: 1; }
+.size-indicator.small { width: 12px; height: 12px; }
+.size-indicator.medium { width: 16px; height: 16px; }
+.size-indicator.large { width: 20px; height: 20px; }
+.size-indicator.custom { width: 16px; height: 16px; background: linear-gradient(135deg, var(--medha-primary) 0%, #ec4899 100%); }
+.medha-size-menu-hint { font-size: 11px; color: var(--medha-text-secondary); padding: 8px 12px; margin-top: 4px; border-top: 1px solid var(--medha-border); text-align: center; opacity: 0.7; }
+
+/* Widget container */
+.medha-widget { position: fixed; bottom: 20px; right: 20px; width: 420px; height: 600px; max-height: calc(100vh - 40px); background: var(--medha-bg-primary); border: 1px solid var(--medha-border); border-radius: var(--medha-radius); box-shadow: 0 20px 60px var(--medha-shadow-lg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 14px; color: var(--medha-text-primary); z-index: 999998; display: flex; flex-direction: column; animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(20px); overflow: hidden; }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+
+/* Header */
+.medha-header { background: var(--medha-bg-secondary); padding: 16px 20px; border-bottom: 1px solid var(--medha-border); display: flex; align-items: center; justify-content: space-between; border-radius: var(--medha-radius) var(--medha-radius) 0 0; }
+.medha-header-title { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+.medha-logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.medha-logo img { width: 100%; height: 100%; object-fit: contain; }
+.medha-title-text { flex: 1; min-width: 0; }
+.medha-brand { font-size: 16px; font-weight: 700; color: var(--medha-text-primary); margin-bottom: 2px; }
+.medha-session-info { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
+.medha-session-title { font-size: 13px; color: #ffffff; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.2; }
+.medha-session-group-container { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.medha-group-label { font-size: 11px; color: #e0e0e0; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
+.medha-group-select { font-size: 11px; color: #ffffff; background: rgba(102, 126, 234, 0.2); border: 1px solid rgba(102, 126, 234, 0.4); border-radius: 6px; padding: 4px 8px; outline: none; cursor: pointer; transition: all 0.3s ease; min-width: 80px; max-width: 150px; font-weight: 500; }
+.medha-group-select:hover { background: rgba(102, 126, 234, 0.3); border-color: var(--medha-primary); }
+.medha-group-select:focus { background: rgba(102, 126, 234, 0.35); border-color: var(--medha-primary); box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2); }
+.medha-group-select option { background: #1a1a2e; color: #ffffff; padding: 8px; }
+.medha-header-actions { display: flex; gap: 8px; align-items: center; }
+.medha-header-btn { background: transparent; border: none; color: var(--medha-text-secondary); cursor: pointer; font-size: 20px; padding: 4px 8px; border-radius: var(--medha-radius-sm); transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; }
+.medha-header-btn:hover { background: var(--medha-bg-hover); color: var(--medha-text-primary); }
+
+/* Tabs */
+.medha-tabs { display: flex; background: var(--medha-bg-secondary); border-bottom: 1px solid var(--medha-border); padding: 0 12px; gap: 4px; position: sticky; top: 0; z-index: 10; }
+.medha-tab { flex: 1; background: transparent; border: none; color: var(--medha-text-secondary); padding: 12px 8px; cursor: pointer; font-size: 13px; font-weight: 500; transition: var(--medha-transition); border-bottom: 2px solid transparent; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.medha-tab:hover { color: var(--medha-text-primary); background: var(--medha-bg-hover); }
+.medha-tab.active { color: var(--medha-primary); border-bottom-color: var(--medha-primary); }
+.tab-icon { font-size: 16px; }
+
+/* Body & content */
+.medha-body { flex: 1; overflow-y: auto; background: var(--medha-bg-primary); min-height: 0; scrollbar-width: thin; scrollbar-color: var(--medha-border) transparent; }
+.medha-body::-webkit-scrollbar { width: 6px; }
+.medha-body::-webkit-scrollbar-track { background: transparent; }
+.medha-body::-webkit-scrollbar-thumb { background: var(--medha-border); border-radius: 3px; }
+.medha-body::-webkit-scrollbar-thumb:hover { background: var(--medha-border-light); }
+.medha-tab-content { display: none; padding: 20px; }
+.medha-tab-content.active { display: block; }
+
+/* Notes */
+.medha-note-input-card { background: var(--medha-bg-secondary); border-radius: var(--medha-radius); padding: 16px; margin-bottom: 20px; border: 1px solid var(--medha-border); }
+.medha-time-display { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--medha-text-secondary); font-size: 12px; font-weight: 500; }
+.time-icon { font-size: 14px; }
+.time-value { color: var(--medha-primary); font-weight: 600; }
+.medha-input-wrapper { position: relative; margin-bottom: 12px; }
+.medha-textarea-modern { width: 100%; background: var(--medha-bg-tertiary); border: 1px solid var(--medha-border); border-radius: var(--medha-radius-sm); color: var(--medha-text-primary); padding: 12px 12px 40px 12px; font-family: inherit; font-size: 14px; line-height: 1.5; resize: vertical; min-height: 80px; transition: var(--medha-transition); box-sizing: border-box; }
+.medha-textarea-modern:focus { outline: none; border-color: var(--medha-primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+.medha-textarea-modern::placeholder { color: var(--medha-text-muted); }
+.medha-input-actions { position: absolute; bottom: 8px; right: 8px; display: flex; gap: 6px; }
+.medha-icon-action-btn { background: var(--medha-bg-primary); border: 1px solid var(--medha-border); border-radius: 6px; padding: 6px 10px; cursor: pointer; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.medha-icon-action-btn:hover { background: var(--medha-bg-hover); border-color: var(--medha-primary); transform: translateY(-2px); }
+.medha-icon-action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.medha-icon-action-btn.recording { background: var(--medha-error); border-color: var(--medha-error); animation: pulseRecord 1.5s infinite; }
+@keyframes pulseRecord { 0%,100%{opacity:1;} 50%{opacity:0.7;} }
+.medha-icon-action-btn .icon { line-height: 1; }
+
+/* Buttons */
+.medha-btn-modern { width: 100%; background: var(--medha-bg-tertiary); border: 1px solid var(--medha-border); color: var(--medha-text-primary); padding: 10px 16px; border-radius: var(--medha-radius-sm); cursor: pointer; font-size: 14px; font-weight: 500; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.medha-btn-modern:hover { background: var(--medha-bg-hover); border-color: var(--medha-border-light); transform: translateY(-2px); }
+.medha-btn-modern:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.medha-btn-primary { background: var(--medha-primary); border-color: var(--medha-primary); color: white; }
+.medha-btn-primary:hover { background: var(--medha-primary-dark); border-color: var(--medha-primary-dark); }
+
+/* Actions bar */
+.medha-actions-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.medha-action-btn { flex: 1; min-width: fit-content; background: var(--medha-bg-secondary); border: 1px solid var(--medha-border); color: var(--medha-text-primary); padding: 8px 12px; border-radius: var(--medha-radius-sm); cursor: pointer; font-size: 12px; font-weight: 500; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; gap: 6px; }
+.medha-action-btn:hover { background: var(--medha-bg-hover); border-color: var(--medha-primary); transform: translateY(-2px); }
+.medha-action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.medha-action-btn .icon { font-size: 14px; }
+
+/* Notes list */
+.medha-notes-list { display: flex; flex-direction: column; gap: 12px; }
+.medha-note-item { background: var(--medha-bg-secondary); border: 1px solid var(--medha-border); border-radius: var(--medha-radius-sm); padding: 12px; transition: var(--medha-transition); }
+.medha-note-item:hover { border-color: var(--medha-primary); }
+.medha-note-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.medha-note-time { color: var(--medha-primary); font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--medha-transition); }
+.medha-note-time:hover { color: var(--medha-primary-light); }
+.medha-note-actions { display: flex; gap: 4px; opacity: 0; transition: var(--medha-transition); }
+.medha-note-item:hover .medha-note-actions { opacity: 1; }
+.medha-note-edit-btn,.medha-note-delete-btn { background: transparent; border: none; color: var(--medha-text-secondary); cursor: pointer; padding: 4px 6px; border-radius: 4px; transition: var(--medha-transition); font-size: 14px; }
+.medha-note-edit-btn:hover,.medha-note-delete-btn:hover { background: var(--medha-bg-hover); color: var(--medha-text-primary); }
+.medha-note-delete-btn:hover { color: var(--medha-error); }
+.medha-note-text { color: var(--medha-text-primary); line-height: 1.6; font-size: 13px; word-wrap: break-word; }
+.medha-note-image { margin-top: 8px; position: relative; }
+.medha-note-image img { cursor: pointer; transition: opacity 0.2s; }
+.medha-note-image img:hover { opacity: 0.9; }
+
+/* Image Preview */
+.medha-image-preview { position: relative; margin-top: 8px; }
+.medha-remove-image-btn { position: absolute; top: 4px; right: 4px; background: var(--medha-error); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; line-height: 1; transition: var(--medha-transition); }
+.medha-remove-image-btn:hover { background: var(--medha-error-dark); transform: scale(1.1); }
+
+/* Drag and Drop */
+[data-note-input-area].medha-dragging { border: 2px dashed var(--medha-primary); background: var(--medha-primary-light); opacity: 0.1; border-radius: var(--medha-radius-sm); }
+
+/* Image Modal */
+.medha-image-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); z-index: 1000000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease-out; }
+.medha-image-modal-content { background: var(--medha-bg-primary); border-radius: var(--medha-radius-md); max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); }
+.medha-image-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--medha-border); }
+.medha-image-modal-header h3 { margin: 0; color: var(--medha-text-primary); font-size: 18px; }
+.medha-close-btn { background: transparent; border: none; color: var(--medha-text-secondary); cursor: pointer; font-size: 28px; line-height: 1; padding: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: var(--medha-transition); }
+.medha-close-btn:hover { background: var(--medha-bg-hover); color: var(--medha-text-primary); }
+.medha-image-modal-body { padding: 20px; overflow: auto; display: flex; align-items: center; justify-content: center; }
+.medha-image-modal-footer { padding: 16px 20px; border-top: 1px solid var(--medha-border); display: flex; justify-content: flex-end; gap: 12px; }
+
+/* Chat */
+.medha-chat-container { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.medha-chat-messages { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--medha-border) transparent; min-height: 0; scroll-behavior: auto; }
+.medha-chat-message { display: flex; flex-direction: column; gap: 8px; animation: fadeIn 0.3s ease-out; }
+.medha-chat-message.medha-user-message { align-items: flex-end; }
+.medha-chat-message.medha-ai-message { align-items: flex-start; }
+.medha-message-user,.medha-message-ai { padding: 12px 14px; border-radius: var(--medha-radius-sm); max-width: 85%; line-height: 1.6; font-size: 13px; }
+.medha-message-user { background: var(--medha-primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.medha-message-ai { background: var(--medha-bg-secondary); border: 1px solid var(--medha-border); color: var(--medha-text-primary); align-self: flex-start; border-bottom-left-radius: 4px; }
+
+/* Markdown styles for AI chat messages */
+.medha-markdown-content { word-wrap: break-word; overflow-wrap: break-word; }
+.medha-markdown-content p { margin: 0.5em 0; line-height: 1.6; }
+.medha-markdown-content p:first-child { margin-top: 0; }
+.medha-markdown-content p:last-child { margin-bottom: 0; }
+.medha-markdown-content h1, .medha-markdown-content .medha-chat-h1 { font-size: 1.3em; font-weight: 700; margin: 0.8em 0 0.5em 0; color: var(--medha-text-primary); line-height: 1.4; }
+.medha-markdown-content h2, .medha-markdown-content .medha-chat-h2 { font-size: 1.15em; font-weight: 600; margin: 0.7em 0 0.4em 0; color: var(--medha-text-primary); line-height: 1.4; }
+.medha-markdown-content h3, .medha-markdown-content .medha-chat-h3 { font-size: 1.05em; font-weight: 600; margin: 0.6em 0 0.3em 0; color: var(--medha-text-primary); line-height: 1.4; }
+.medha-markdown-content ul, .medha-markdown-content .medha-chat-list { margin: 0.5em 0; padding-left: 1.5em; list-style-type: disc; }
+.medha-markdown-content li, .medha-markdown-content .medha-chat-list-item { margin: 0.3em 0; line-height: 1.5; }
+.medha-markdown-content ul ul { list-style-type: circle; margin: 0.2em 0; }
+.medha-markdown-content ul ul ul { list-style-type: square; }
+.medha-markdown-content strong { font-weight: 600; color: var(--medha-text-primary); }
+.medha-markdown-content em { font-style: italic; }
+.medha-markdown-content code, .medha-markdown-content .medha-code-inline { background: rgba(0, 0, 0, 0.2); padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; word-break: break-word; }
+.medha-markdown-content pre { background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 6px; overflow-x: auto; margin: 0.8em 0; }
+.medha-markdown-content pre code, .medha-markdown-content .medha-code-block { background: transparent; padding: 0; border-radius: 0; font-size: 0.85em; line-height: 1.5; display: block; white-space: pre-wrap; word-wrap: break-word; }
+.medha-markdown-content a, .medha-markdown-content .medha-link { color: var(--medha-primary); text-decoration: underline; transition: var(--medha-transition); }
+.medha-markdown-content a:hover, .medha-markdown-content .medha-link:hover { color: var(--medha-primary-light); }
+.medha-markdown-content br { line-height: 1.5; }
+.medha-message-label { font-size: 11px; color: var(--medha-text-muted); font-weight: 500; padding: 0 4px; display: flex; align-items: center; gap: 6px; }
+.medha-message-icon { font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+.medha-chat-input-container { display: flex; gap: 8px; padding-top: 12px; border-top: 1px solid var(--medha-border); flex-shrink: 0; }
+.medha-chat-input { flex: 1; background: var(--medha-bg-tertiary); border: 1px solid var(--medha-border); border-radius: var(--medha-radius-sm); color: var(--medha-text-primary); padding: 10px 12px; font-family: inherit; font-size: 14px; transition: var(--medha-transition); }
+.medha-chat-input:focus { outline: none; border-color: var(--medha-primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+.medha-chat-input::placeholder { color: var(--medha-text-muted); }
+.medha-send-btn { background: var(--medha-primary); border: none; color: white; padding: 10px 16px; border-radius: var(--medha-radius-sm); cursor: pointer; font-size: 18px; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; }
+.medha-send-btn:hover { background: var(--medha-primary-dark); transform: translateY(-2px); }
+.medha-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Empty state */
+.medha-empty-state { text-align: center; padding: 40px 20px; color: var(--medha-text-secondary); }
+.medha-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+.medha-empty-text { font-size: 14px; line-height: 1.6; }
+
+/* Spinner */
+.medha-spinner { width: 16px; height: 16px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+
+/* Typing Indicator */
+.medha-typing-indicator { display: flex; align-items: center; gap: 4px; padding: 4px 8px; }
+.medha-typing-indicator span { display: block; width: 6px; height: 6px; background-color: var(--medha-text-muted); border-radius: 50%; animation: typing 1.4s infinite ease-in-out both; }
+.medha-typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.medha-typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+/* Utilities */
+.medha-text-center { text-align: center; }
+.medha-mt-16 { margin-top: 16px; }
+.medha-mb-16 { margin-bottom: 16px; }
+.medha-hidden { display: none !important; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .medha-widget { width: calc(100vw - 40px); max-width: 420px; max-height: 70vh; }
+  .medha-fab { bottom: 20px; right: 20px; width: 54px; height: 54px; }
+  .medha-fab-icon { width: 100%; height: 100%; }
+}
+
+
