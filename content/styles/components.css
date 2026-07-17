@@ -116,8 +116,13 @@
 .medha-btn-modern { width: 100%; background: var(--medha-bg-tertiary); border: 1px solid var(--medha-border); color: var(--medha-text-primary); padding: 10px 16px; border-radius: var(--medha-radius-sm); cursor: pointer; font-size: 14px; font-weight: 500; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
 .medha-btn-modern:hover { background: var(--medha-bg-hover); border-color: var(--medha-border-light); transform: translateY(-2px); }
 .medha-btn-modern:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.medha-btn-primary { background: var(--medha-primary); border-color: var(--medha-primary); color: white; }
-.medha-btn-primary:hover { background: var(--medha-primary-dark); border-color: var(--medha-primary-dark); }
+.medha-btn-primary { background: var(--medha-primary); border: 1px solid var(--medha-primary); color: white; padding: 10px 16px; border-radius: var(--medha-radius-sm); cursor: pointer; font-size: 14px; font-weight: 500; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.medha-btn-primary:hover:not(:disabled) { background: var(--medha-primary-dark); border-color: var(--medha-primary-dark); transform: translateY(-2px); }
+.medha-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.medha-btn-secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--medha-border); color: var(--medha-text-primary); padding: 10px 16px; border-radius: var(--medha-radius-sm); cursor: pointer; font-size: 14px; font-weight: 500; transition: var(--medha-transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+.medha-btn-secondary:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+.medha-btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+.medha-btn-sm { padding: 6px 12px !important; font-size: 13px !important; }
 
 /* Actions bar */
 .medha-actions-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
@@ -221,6 +226,18 @@
 .medha-mt-16 { margin-top: 16px; }
 .medha-mb-16 { margin-bottom: 16px; }
 .medha-hidden { display: none !important; }
+
+/* Quiz Cards */
+.medha-quiz-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--medha-radius); padding: 16px; margin-bottom: 12px; transition: var(--medha-transition); display: flex; flex-direction: column; gap: 12px; }
+.medha-quiz-card:hover { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.1); }
+.medha-quiz-card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px; }
+.medha-quiz-time-range { font-size: 13px; color: var(--medha-text-secondary); font-weight: 500; }
+.medha-quiz-questions { font-size: 12px; background: rgba(99, 102, 241, 0.15); color: #818cf8; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+.medha-quiz-score { display: flex; align-items: baseline; gap: 8px; padding: 6px 0; }
+.medha-quiz-score .score-percentage { font-size: 20px; font-weight: 700; color: #34d399; }
+.medha-quiz-score .score-text { font-size: 13px; color: var(--medha-text-secondary); }
+.medha-quiz-actions { display: flex; gap: 8px; margin-top: 4px; }
+.medha-quiz-actions button { flex: 1; }
 
 /* Responsive */
 @media (max-width: 768px) {

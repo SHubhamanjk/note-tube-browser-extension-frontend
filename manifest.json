@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Note Tube",
   "version": "1.0.0",
-  "description": "AI-powered tutorial companion: Notes & AI Chat while watching videos",
+  "description": "AI-powered tutorial companion: Notes, AI Chat, & Quizzes while watching videos",
   "permissions": [
     "storage",
     "activeTab",
@@ -39,6 +39,7 @@
         "content/ui/widget.js",
         "content/features/notes.js",
         "content/features/chat.js",
+        "content/features/quiz.js",
         "content/features/fuel-mission.js",
         "content/init.js"
       ],

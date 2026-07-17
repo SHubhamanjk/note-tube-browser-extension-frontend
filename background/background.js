@@ -2,7 +2,7 @@
 // Handles API communication and message passing
 
 // Import API service
-importScripts('../lib/api.js');
+importScripts('/lib/api.js');
 
 // Listen for messages from content script and popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -60,7 +60,8 @@ async function handleMessage(request, sender) {
         return await api.createTutorial({
           url: data.tutorialLink,
           title: data.title || "YouTube Video",
-          group_id: data.group
+          group_id: data.group,
+          transcript: data.transcript
         });
       
       case 'updateTutorial':
@@ -122,6 +123,19 @@ async function handleMessage(request, sender) {
           method: 'POST',
           body: JSON.stringify(data)
         });
+        
+      // ========================================================================
+      // QUIZZES
+      // ========================================================================
+      
+      case 'generateQuiz':
+        return await api.generateQuiz(data.tutorialId, data.fromTimestamp, data.toTimestamp);
+      
+      case 'getTutorialQuizzes':
+        return await api.getTutorialQuizzes(data.tutorialId);
+      
+      case 'evaluateQuiz':
+        return await api.evaluateQuiz(data.quizId, data.answers);
       
       // ========================================================================
       // UNKNOWN ACTION

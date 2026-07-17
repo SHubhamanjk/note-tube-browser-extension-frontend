@@ -328,8 +328,10 @@
       showNotification && showNotification('Initializing tutorial session...', 'info');
       try {
         const title = document.title ? document.title.replace(/^\(\d+\)\s*/, '').replace(' - YouTube', '') : 'YouTube Video';
+        const videoId = yt.getYouTubeVideoId();
+        const transcript = videoId ? await yt.fetchTranscript(videoId) : null;
         
-        const response = await chrome.runtime.sendMessage({ action: 'createTutorial', data: { tutorialLink: videoUrl, group: 'general', title: title } });
+        const response = await chrome.runtime.sendMessage({ action: 'createTutorial', data: { tutorialLink: videoUrl, group: 'general', title: title, transcript: transcript } });
         if (response && response.error) {
           throw new Error(response.error);
         }

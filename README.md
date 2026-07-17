@@ -3,13 +3,14 @@
 Note Tube is a powerful browser extension designed to supercharge your YouTube learning experience.
 
 ## What it Does
-Note Tube injects an interactive side-panel directly into YouTube, giving you an AI-powered assistant and a dedicated workspace to take notes, ask questions, and summarize tutorials—without ever leaving the video page or juggling multiple tabs.
+Note Tube injects an interactive side-panel directly into YouTube, giving you an AI-powered assistant and a dedicated workspace to take notes, ask questions, summarize tutorials, and take AI-generated quizzes—without ever leaving the video page or juggling multiple tabs.
 
 ## The Problem it Solves
 Switching back and forth between YouTube and a separate note-taking app is distracting and inefficient. You lose context, miss important timestamps, and constantly have to pause and rewind. Note Tube solves this by embedding a smart learning companion right into YouTube. It syncs your notes with the video timeline and provides an AI that understands the video context to answer your questions on the fly.
 
 ## Key Features
 - **Smart Timestamped Notes**: Take notes that are automatically linked to the exact moment in the video. Click a timestamp later to jump right back to that spot.
+- **Interactive Quizzes & Analysis**: Auto-generate quizzes directly from the video content to test your knowledge. Review your performance with comprehensive feedback, scores, and correct answers in the beautiful Analysis module.
 - **AI Chat Assistant**: Ask questions about the tutorial you're watching, and the AI will provide contextual answers based on the video's content.
 - **Voice Input**: Use your microphone to quickly dictate notes or chat with the AI, powered by Whisper speech-to-text.
 - **AI Text Enhancement**: Instantly rewrite and polish your notes using our built-in AI rewriting tools.
@@ -25,6 +26,17 @@ Switching back and forth between YouTube and a separate note-taking app is distr
 ![AI Chat Assistant](assets/3.png)
 
 ![Scientific Calculator](assets/4.png)
+
+![Interactive Quizzes](assets/10.png)
+
+![Feature Showcase 1](assets/5.png)
+
+![Feature Showcase 2](assets/6.png)
+
+![Feature Showcase 3](assets/7.png)
+
+![Feature Showcase 4](assets/9.png)
+
 
 ## Tech Stack
 - **Frontend**: Vanilla HTML, CSS, JavaScript
@@ -72,14 +84,13 @@ cd note-tube-browser-extension-frontend
 ## Future Roadmap & Challenges
 
 We have ambitious plans for the future of Note Tube! Some upcoming features in our roadmap include:
-- **Interactive Quizzes**: Auto-generate quizzes directly from the video content to test your knowledge.
 - **Mind Maps**: Visually map out complex concepts and topics covered in long tutorials.
 - **Fully AI-Powered Notes**: Automatically structure and summarize notes based on the video context with minimal manual input.
 
 ### Current Challenges
 As we scale these features, we are actively working through a few technical hurdles:
 - **AI Cost at Scale**: Generating context-heavy features (like interactive quizzes and full-length summaries) requires significant LLM usage, which poses a challenge for maintaining cost-efficiency as our user base grows.
-- **Consistent Video Transcripts**: Reliably extracting highly accurate transcripts from every YouTube video remains a challenge due to varying caption availability, language barriers, and auto-generation inconsistencies.
+
 
 ## Backend Repository
 The backend API powering this extension is built with FastAPI and MongoDB. You can find the source code here:

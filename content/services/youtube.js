@@ -68,6 +68,59 @@
     return 0;
   }
 
+  async function fetchTranscript(videoId) {
+    try {
+      const resp = await fetch('https://www.youtube.com/youtubei/v1/player?prettyPrint=false', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'com.google.android.youtube/20.10.38 (Linux; U; Android 14)',
+        },
+        body: JSON.stringify({
+          context: {
+            client: {
+              clientName: 'ANDROID',
+              clientVersion: '20.10.38',
+            },
+          },
+          videoId: videoId,
+        }),
+      });
+      
+      const data = await resp.json();
+      const tracks = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+      
+      if (!tracks || tracks.length === 0) return null;
+      
+      const parsedUrl = new URL(tracks[0].baseUrl);
+      parsedUrl.searchParams.set('fmt', 'json3');
+      const trackUrl = parsedUrl.toString();
+      const transcriptResponse = await fetch(trackUrl);
+      const transcriptData = await transcriptResponse.json();
+      
+      const transcript = [];
+      const langCode = tracks[0].languageCode || 'en';
+      
+      for (const event of transcriptData.events || []) {
+        if (!event.segs) continue;
+        const textSegment = event.segs.map(seg => seg.utf8).join('').replace(/\n/g, ' ').trim();
+        if (!textSegment) continue;
+        
+        transcript.push({
+          text: textSegment,
+          offset: event.tStartMs,
+          duration: event.dDurationMs,
+          lang: langCode
+        });
+      }
+      
+      return transcript;
+    } catch (err) {
+      console.error("[Note Tube] Failed to fetch transcript:", err);
+      return null;
+    }
+  }
+
   ns.youtube = {
     getYouTubeVideoId,
     getNormalizedYouTubeUrl,
@@ -77,7 +130,8 @@
     formatTime,
     pauseVideo,
     resumeVideo,
-    timestampToSeconds
+    timestampToSeconds,
+    fetchTranscript
   };
 })();
 

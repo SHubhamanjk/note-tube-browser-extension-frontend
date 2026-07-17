@@ -32,6 +32,17 @@
       });
     } else if (tabName === 'notes') {
       ns.features && ns.features.loadNotes && ns.features.loadNotes();
+    } else if (tabName === 'quiz') {
+      ns.features && ns.features.loadQuizzes && ns.features.loadQuizzes();
+      // Populate default times if empty
+      const toInput = document.getElementById('quiz-to-time');
+      if (toInput && !toInput.value) {
+          const player = ns.youtube && ns.youtube.getVideoPlayer ? ns.youtube.getVideoPlayer() : null;
+          const duration = player ? player.duration : 0;
+          if (duration > 0 && ns.youtube.formatTime) {
+              toInput.value = ns.youtube.formatTime(Math.floor(duration));
+          }
+      }
     }
   }
 
@@ -46,6 +57,10 @@
       }
     });
     loadAndSetupGroupSelector();
+    document.getElementById('medha-remove-image')?.addEventListener('click', () => ns.features && ns.features.removeImage && ns.features.removeImage());
+    document.getElementById('medha-chat-input')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') ns.features && ns.features.sendChatMessage && ns.features.sendChatMessage(); });
+    document.getElementById('medha-send-chat')?.addEventListener('click', () => ns.features && ns.features.sendChatMessage && ns.features.sendChatMessage());
+    document.getElementById('medha-generate-quiz')?.addEventListener('click', () => ns.features && ns.features.generateQuiz && ns.features.generateQuiz());
     document.querySelectorAll('.medha-tab').forEach(tab => { tab.addEventListener('click', () => switchTab(tab.dataset.tab)); });
     document.getElementById('medha-add-note').addEventListener('click', () => ns.features && ns.features.addNote && ns.features.addNote());
     document.getElementById('medha-voice-btn').addEventListener('click', () => ns.features && ns.features.toggleVoiceRecording && ns.features.toggleVoiceRecording());
@@ -329,6 +344,7 @@
         <div class="medha-tabs">
           <button class="medha-tab active" data-tab="notes"><span class="tab-icon"></span> Notes</button>
           <button class="medha-tab" data-tab="chat"><span class="tab-icon"></span> Chat</button>
+          <button class="medha-tab" data-tab="quiz"><span class="tab-icon"></span> Quiz</button>
         </div>
         <div id="tab-notes" class="medha-tab-content active">
           <div class="medha-note-input-card">
@@ -362,6 +378,37 @@
                 <button id="medha-chat-voice-btn" class="medha-icon-action-btn" title="Voice Input" style="position: absolute; right: 4px; background: transparent; border: none; padding: 6px;"><span class="icon">🎤</span></button>
               </div>
               <button id="medha-send-chat" class="medha-send-btn"><span class="icon">→</span></button>
+            </div>
+          </div>
+        </div>
+        <div id="tab-quiz" class="medha-tab-content">
+          <div class="medha-quiz-container">
+            <div class="medha-quiz-header-controls" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+              <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #ffffff;">Generate Quiz</h3>
+              <p style="margin: 0 0 16px 0; font-size: 13px; color: #a0a0a0; line-height: 1.4;">
+                Create a practice test from any section of the video.<br/>
+                Timestamps define the content range for quiz generation.
+              </p>
+              
+              <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                <div style="flex: 1;">
+                  <label style="display: block; color: #a0a0a0; font-size: 12px; margin-bottom: 6px;">From</label>
+                  <input type="text" id="quiz-from-time" class="medha-input-sm" style="width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #fff; padding: 8px 12px; font-size: 14px;" value="0:00" placeholder="0:00" />
+                </div>
+                <div style="flex: 1;">
+                  <label style="display: block; color: #a0a0a0; font-size: 12px; margin-bottom: 6px;">To</label>
+                  <input type="text" id="quiz-to-time" class="medha-input-sm" style="width: 100%; box-sizing: border-box; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #fff; padding: 8px 12px; font-size: 14px;" placeholder="End" />
+                </div>
+              </div>
+              
+              <button id="medha-generate-quiz" class="medha-btn-primary" style="width: 100%; padding: 10px; font-size: 14px; font-weight: 500; border-radius: 6px; background-color: #6366f1; color: white; border: none; cursor: pointer; transition: background-color 0.2s;">Generate Quiz</button>
+            </div>
+            
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 24px 0;"></div>
+            
+            <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #818cf8;">Previous Quizzes</h3>
+            <div id="medha-quiz-list" class="medha-quiz-list">
+              <div class="medha-empty-state"><div class="medha-empty-icon">📝</div><div class="medha-empty-text">No quizzes yet. Generate one!</div></div>
             </div>
           </div>
         </div>

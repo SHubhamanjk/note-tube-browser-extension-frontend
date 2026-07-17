@@ -3,7 +3,8 @@
    ============================================================================ */
 
 /* Notes Preview Modal */
-.medha-notes-modal {
+.medha-notes-modal,
+.medha-quiz-modal {
    position: fixed;
    inset: 0;
    background: rgba(0, 0, 0, 0.85);
@@ -16,7 +17,8 @@
    animation: fadeIn 0.3s ease-out;
 }
 
-.medha-notes-modal-content {
+.medha-notes-modal-content,
+.medha-quiz-modal-content {
    background: var(--medha-bg-primary);
    border: 1px solid var(--medha-border);
    border-radius: var(--medha-radius);
@@ -41,7 +43,8 @@
    }
 }
 
-.medha-notes-modal-header {
+.medha-notes-modal-header,
+.medha-quiz-modal-header {
    padding: 24px;
    border-bottom: 1px solid var(--medha-border);
    display: flex;
@@ -50,7 +53,8 @@
    gap: 16px;
 }
 
-.medha-notes-modal-header h2 {
+.medha-notes-modal-header h2,
+.medha-quiz-modal-header h2 {
    margin: 0;
    font-size: 20px;
    font-weight: 700;
@@ -63,7 +67,8 @@
    color: var(--medha-text-secondary);
 }
 
-.medha-notes-modal-body {
+.medha-notes-modal-body,
+.medha-quiz-modal-body {
    flex: 1;
    overflow-y: auto;
    padding: 24px;
@@ -240,6 +245,25 @@
    font-size: 20px;
    color: var(--medha-primary);
    margin: 0 0 8px 0;
+}
+
+.medha-minimize-btn {
+   background: transparent;
+   border: none;
+   color: var(--medha-text-secondary);
+   cursor: pointer;
+   padding: 4px;
+   transition: all 0.2s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 4px;
+}
+
+.medha-minimize-btn:hover {
+   color: #ffffff;
+   background: rgba(255, 255, 255, 0.1);
+   transform: scale(1.1);
 }
 
 .medha-mindmap-modal-description {
@@ -772,4 +796,217 @@
    display: flex;
    gap: 12px;
    justify-content: flex-end;
+}
+
+/* ============================================================================
+   Quiz Feature Internal Styles
+   ============================================================================ */
+
+.medha-quiz-progress {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   margin-bottom: 24px;
+}
+
+.medha-quiz-progress-text {
+   font-size: 14px;
+   color: var(--medha-text-secondary);
+   font-weight: 500;
+}
+
+.medha-quiz-progress-bar {
+   width: 100%;
+   height: 6px;
+   background: rgba(255, 255, 255, 0.1);
+   border-radius: 3px;
+   overflow: hidden;
+}
+
+.medha-quiz-progress-fill {
+   height: 100%;
+   background: var(--medha-primary);
+   border-radius: 3px;
+   transition: width 0.3s ease;
+}
+
+.medha-quiz-question h3 {
+   font-size: 18px;
+   font-weight: 600;
+   color: var(--medha-text-primary);
+   margin: 0 0 20px 0;
+   line-height: 1.5;
+}
+
+.medha-quiz-options {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+
+.medha-quiz-option {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   padding: 16px;
+   border: 1px solid rgba(255, 255, 255, 0.15);
+   border-radius: 8px;
+   background: rgba(255, 255, 255, 0.03);
+   color: var(--medha-text-primary);
+   font-size: 15px;
+   cursor: pointer;
+   transition: all 0.2s ease;
+}
+
+.medha-quiz-option:hover:not(:disabled) {
+   background: rgba(255, 255, 255, 0.08);
+   border-color: rgba(255, 255, 255, 0.3);
+}
+
+.medha-quiz-option.selected {
+   background: rgba(99, 102, 241, 0.1);
+   border-color: var(--medha-primary);
+}
+
+.medha-quiz-option input[type="radio"] {
+   width: 18px;
+   height: 18px;
+   margin: 0;
+   cursor: pointer;
+   accent-color: var(--medha-primary);
+}
+
+.medha-quiz-textarea {
+   width: 100%;
+   background: rgba(0, 0, 0, 0.2);
+   border: 1px solid rgba(255, 255, 255, 0.15);
+   border-radius: 8px;
+   color: var(--medha-text-primary);
+   padding: 16px;
+   font-size: 15px;
+   line-height: 1.6;
+   resize: vertical;
+   box-sizing: border-box;
+}
+
+.medha-quiz-textarea:focus {
+   outline: none;
+   border-color: var(--medha-primary);
+}
+
+.medha-quiz-dots {
+   display: flex;
+   gap: 6px;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+
+.medha-quiz-dot {
+   width: 10px;
+   height: 10px;
+   border-radius: 50%;
+   background: rgba(255, 255, 255, 0.2);
+   cursor: pointer;
+   transition: all 0.2s;
+}
+
+.medha-quiz-dot:hover {
+   background: rgba(255, 255, 255, 0.4);
+}
+
+.medha-quiz-dot.answered {
+   background: rgba(46, 204, 113, 0.8);
+}
+
+.medha-quiz-dot.current {
+   background: var(--medha-primary);
+   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Quiz Results Modal Specific Styles */
+.medha-quiz-results-summary {
+   display: flex;
+   align-items: center;
+   gap: 24px;
+   padding: 24px;
+   background: rgba(255, 255, 255, 0.02);
+   border-radius: 12px;
+   border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.medha-score-circle {
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   background: conic-gradient(var(--medha-primary) 0%, rgba(255, 255, 255, 0.1) 0%);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   border: 4px solid rgba(255, 255, 255, 0.05);
+   box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+.medha-score-number {
+   font-size: 28px;
+   font-weight: 800;
+   color: #ffffff;
+   line-height: 1;
+}
+
+.medha-score-label {
+   font-size: 12px;
+   color: var(--medha-text-secondary);
+   text-transform: uppercase;
+   letter-spacing: 1px;
+   margin-top: 4px;
+}
+
+.medha-score-details {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+}
+
+.medha-score-details p {
+   margin: 0;
+   color: var(--medha-text-secondary);
+   font-size: 15px;
+}
+
+.medha-score-details strong {
+   color: #ffffff;
+}
+
+.medha-divider {
+   height: 1px;
+   background: rgba(255, 255, 255, 0.1);
+   margin: 32px 0;
+}
+
+.medha-quiz-results-details h3 {
+   font-size: 18px;
+   font-weight: 700;
+   color: var(--medha-text-primary);
+   margin: 0 0 12px 0;
+}
+
+.medha-overall-feedback {
+   color: var(--medha-text-secondary);
+   font-size: 15px;
+   line-height: 1.6;
+   padding: 16px;
+   background: rgba(255, 255, 255, 0.03);
+   border-left: 4px solid var(--medha-primary);
+   border-radius: 0 8px 8px 0;
+   margin: 0 0 32px 0;
+}
+
+.medha-quiz-modal-footer {
+   padding: 20px 24px;
+   border-top: 1px solid var(--medha-border);
+   display: flex;
+   justify-content: flex-end;
+   gap: 12px;
+   background: rgba(0, 0, 0, 0.2);
 }
