@@ -112,6 +112,9 @@ async function handleMessage(request, sender) {
       case 'prettifyNotes':
         return await api.prettifyNotes(data.tutorialId);
       
+      case 'downloadNotesPdf':
+        return await api.downloadNotesPdf(data.tutorialId);
+      
       case 'generateDetailedNotes':
         return await api.generateDetailedNotes(data.tutorialId);
       
@@ -141,6 +144,9 @@ async function handleMessage(request, sender) {
       // UNKNOWN ACTION
       // ========================================================================
       
+      case 'getApiBaseUrl':
+        return { url: api.baseURL };
+        
       case 'openPopup':
         if (data && data.showFab && sender?.tab?.id) {
           chrome.tabs.sendMessage(sender.tab.id, { action: 'showFab' });

@@ -21,9 +21,13 @@
     try {
       const response = await chrome.runtime.sendMessage({ action: 'generateQuiz', data: { tutorialId: state.currentTutorialId, fromTimestamp: fromTime, toTimestamp: toTime } });
       showNotification && showNotification(' Quiz generated successfully!', 'success');
-      await loadQuizzes(); showQuizAttempt(response.id, response);
-    } catch (error) { showNotification && showNotification('❌ Quiz generation failed: ' + error.message, 'error'); }
-    finally { btn.disabled = false; btn.innerHTML = 'Generate Quiz'; }
+      showQuizAttempt(response.id, response);
+    } catch (error) { 
+      showNotification && showNotification('❌ Quiz generation failed: ' + error.message, 'error'); 
+    }
+    finally { 
+      await loadQuizzes(); 
+    }
   }
 
   async function loadQuizzes(maxRetries = 0, attempt = 0) {
@@ -35,6 +39,55 @@
     try {
       const response = await chrome.runtime.sendMessage({ action: 'getTutorialQuizzes', data: { tutorialId: state.currentTutorialId } });
       const quizzes = response.data || [];
+      
+      const genBtn = document.getElementById('medha-generate-quiz');
+      if (genBtn) {
+        let msgEl = document.getElementById('quiz-limit-msg');
+        if (!msgEl) {
+          msgEl = document.createElement('div');
+          msgEl.id = 'quiz-limit-msg';
+          genBtn.parentNode.insertBefore(msgEl, genBtn.nextSibling);
+        }
+        
+        if (quizzes.length >= 2) {
+          genBtn.disabled = true;
+          genBtn.innerHTML = 'Quiz Limit Reached (2/2)';
+          genBtn.style.opacity = '0.7';
+          genBtn.style.cursor = 'not-allowed';
+          
+          msgEl.style.cssText = "background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 6px; padding: 10px 12px; margin-top: 12px; display: flex; align-items: flex-start; gap: 8px;";
+          msgEl.innerHTML = `
+            <span style="font-size: 16px; line-height: 1;">⚠️</span>
+            <p style="margin: 0; color: #fca5a5; font-size: 12px; line-height: 1.4;">
+              <strong>Quiz Limit Reached</strong><br>
+              Quiz generation requires significant AI compute, so we currently limit it to 2 per tutorial. We are working on increasing this limit!
+            </p>
+          `;
+          msgEl.style.display = 'flex';
+        } else if (quizzes.length === 1) {
+          genBtn.disabled = false;
+          genBtn.innerHTML = 'Generate Quiz (1 Left)';
+          genBtn.style.opacity = '1';
+          genBtn.style.cursor = 'pointer';
+          
+          msgEl.style.cssText = "background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 6px; padding: 10px 12px; margin-top: 12px; display: flex; align-items: flex-start; gap: 8px;";
+          msgEl.innerHTML = `
+            <span style="font-size: 16px; line-height: 1;">💡</span>
+            <p style="margin: 0; color: #fcd34d; font-size: 12px; line-height: 1.4;">
+              <strong>1 of 2 Quizzes Generated</strong><br>
+              Due to high AI compute costs, there is a limit of 2 quizzes per tutorial. You have 1 generation remaining.
+            </p>
+          `;
+          msgEl.style.display = 'flex';
+        } else {
+          genBtn.disabled = false;
+          genBtn.innerHTML = 'Generate Quiz';
+          genBtn.style.opacity = '1';
+          genBtn.style.cursor = 'pointer';
+          msgEl.style.display = 'none';
+        }
+      }
+      
       if (quizzes.length === 0) {
         if (attempt < maxRetries) {
           setTimeout(() => loadQuizzes(maxRetries, attempt + 1), 2000);

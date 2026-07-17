@@ -60,7 +60,7 @@
         <button type="button" class="medha-remove-image-btn" data-index="${index}" style="position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; border: none; width: 18px; height: 18px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center;">×</button>
       </div>
     `).join('');
-    
+
     preview.querySelectorAll('.medha-remove-image-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const idx = parseInt(e.target.dataset.index);
@@ -82,15 +82,15 @@
 
   async function addNote() {
     if (!state.currentTutorialId) { showNotification && showNotification('⚠️ No tutorial session active', 'warning'); return; }
-    const input = document.getElementById('medha-note-input'); 
+    const input = document.getElementById('medha-note-input');
     const note = input.value.trim();
-    if (!note && currentImages.length === 0) { 
-      showNotification && showNotification('⚠️ Please enter a note or upload an image', 'warning'); 
-      return; 
+    if (!note && currentImages.length === 0) {
+      showNotification && showNotification('⚠️ Please enter a note or upload an image', 'warning');
+      return;
     }
     const timestamp = getCurrentTime();
-    const btn = document.getElementById('medha-add-note'); 
-    
+    const btn = document.getElementById('medha-add-note');
+
     // Optimistic UI Update
     const tempId = 'temp-' + Date.now();
     const tempNote = {
@@ -101,30 +101,30 @@
       timestamp: timestamp,
       isSaving: true
     };
-    
+
     state.notes = [tempNote, ...(state.notes || [])];
     renderNotes();
-    
+
     // Save state for rollback if needed
     const savedNoteText = note;
     const savedImages = [...currentImages];
-    
+
     // Clear UI immediately so user can keep typing
-    input.value = ''; 
+    input.value = '';
     removeImage();
-    state.isUserTyping = false; 
+    state.isUserTyping = false;
     if (state.typingTimer) clearTimeout(state.typingTimer);
     setTimeout(() => { if (!state.isRecording) resumeVideo(); }, 500);
 
     // Send API request asynchronously in background
-    chrome.runtime.sendMessage({ 
-      action: 'addNote', 
-      data: { 
-        tutorialId: state.currentTutorialId, 
+    chrome.runtime.sendMessage({
+      action: 'addNote',
+      data: {
+        tutorialId: state.currentTutorialId,
         note: savedNoteText || undefined,
         images: savedImages.length > 0 ? savedImages : undefined,
-        timestamp 
-      } 
+        timestamp
+      }
     }).then((response) => {
       showNotification && showNotification('✅ Note saved!', 'success');
       // Replace optimistic note with real note from server
@@ -139,7 +139,7 @@
       // Revert optimistic update
       state.notes = state.notes.filter(n => n.id !== tempId);
       renderNotes();
-      
+
       // Restore input if the user hasn't typed something new
       if (input.value === '') {
         input.value = savedNoteText;
@@ -154,22 +154,22 @@
   function showImageModal(imageSrc) {
     const existing = document.getElementById('medha-image-modal');
     if (existing) existing.remove();
-    
+
     const modal = document.createElement('div');
     modal.id = 'medha-image-modal';
     modal.className = 'medha-image-modal';
-    
+
     const img = document.createElement('img');
     img.src = imageSrc;
     img.alt = 'Full size note image';
     img.style.cssText = 'max-width: 100%; max-height: 70vh; object-fit: contain;';
-    
+
     const closeBtn = document.createElement('button');
     closeBtn.id = 'medha-close-image-modal';
     closeBtn.className = 'medha-close-btn';
     closeBtn.textContent = '×';
     closeBtn.addEventListener('click', () => modal.remove());
-    
+
     const downloadBtn = document.createElement('button');
     downloadBtn.id = 'medha-download-image';
     downloadBtn.className = 'medha-btn-modern medha-btn-primary';
@@ -185,43 +185,48 @@
         showNotification && showNotification('❌ Download failed', 'error');
       }
     });
-    
+
     const header = document.createElement('div');
     header.className = 'medha-image-modal-header';
     const title = document.createElement('h3');
     title.textContent = 'Image Preview';
     header.appendChild(title);
     header.appendChild(closeBtn);
-    
+
     const body = document.createElement('div');
     body.className = 'medha-image-modal-body';
     body.appendChild(img);
-    
+
     const footer = document.createElement('div');
     footer.className = 'medha-image-modal-footer';
     footer.appendChild(downloadBtn);
-    
+
     const content = document.createElement('div');
     content.className = 'medha-image-modal-content';
     content.appendChild(header);
     content.appendChild(body);
     content.appendChild(footer);
-    
+
     modal.appendChild(content);
     document.body.appendChild(modal);
-    
+
     modal.addEventListener('click', (e) => {
       if (e.target === modal) modal.remove();
     });
   }
 
   function renderNotes() {
-    const container = document.getElementById('medha-notes-list'); 
+    const container = document.getElementById('medha-notes-list');
+    const downloadBtn = document.getElementById('medha-download-pdf-btn');
     if (!container) return;
+
     if ((state.notes || []).length === 0) {
+      if (downloadBtn) downloadBtn.style.display = 'none';
       container.innerHTML = '<div class="medha-empty-state"><div class="medha-empty-icon">📝</div><div class="medha-empty-text">No notes yet. Start taking notes!</div></div>';
       return;
     }
+
+    if (downloadBtn) downloadBtn.style.display = 'inline-flex';
     container.innerHTML = state.notes.map(note => {
       const contentText = note.note_content ? `<div class="medha-note-text">${escapeHtml(note.note_content)}</div>` : '';
       let noteImage = '';
@@ -234,7 +239,7 @@
       }
       const editBtn = (note.note_content || (note.media && note.media.length > 0)) ? `<button class="medha-note-edit-btn" data-note-id="${note.id}" title="Edit" ${note.isSaving ? 'disabled style="opacity: 0.5"' : ''}><span class="icon">✏️</span></button>` : '';
       const delBtn = `<button class="medha-note-delete-btn" data-note-id="${note.id}" title="Delete" ${note.isSaving ? 'disabled style="opacity: 0.5"' : ''}><span class="icon">🗑️</span></button>`;
-      
+
       return `
         <div class="medha-note-item" data-note-id="${note.id}" style="${note.isSaving ? 'opacity: 0.7; pointer-events: none;' : ''}">
           <div class="medha-note-header">
@@ -250,19 +255,19 @@
         </div>
       `;
     }).join('');
-    
+
     container.querySelectorAll('.medha-note-time').forEach(timeEl => {
-      timeEl.addEventListener('click', () => { 
-        const seconds = timestampToSeconds(timeEl.dataset.timestamp); 
-        const video = document.querySelector('video'); 
-        if (video) video.currentTime = seconds; 
+      timeEl.addEventListener('click', () => {
+        const seconds = timestampToSeconds(timeEl.dataset.timestamp);
+        const video = document.querySelector('video');
+        if (video) video.currentTime = seconds;
       });
     });
-    container.querySelectorAll('.medha-note-edit-btn').forEach(btn => { 
-      btn.addEventListener('click', () => editNoteHandler(btn.dataset.noteId)); 
+    container.querySelectorAll('.medha-note-edit-btn').forEach(btn => {
+      btn.addEventListener('click', () => editNoteHandler(btn.dataset.noteId));
     });
-    container.querySelectorAll('.medha-note-delete-btn').forEach(btn => { 
-      btn.addEventListener('click', () => deleteNoteHandler(btn.dataset.noteId)); 
+    container.querySelectorAll('.medha-note-delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => deleteNoteHandler(btn.dataset.noteId));
     });
     container.querySelectorAll('.medha-note-image-clickable').forEach(img => {
       img.addEventListener('click', () => {
@@ -270,7 +275,7 @@
         if (imageSrc) showImageModal(imageSrc);
       });
     });
-    
+
     // Attach infinite scroll listener
     setupNotesScroll();
   }
@@ -283,9 +288,9 @@
   async function loadNotes(reset = true) {
     if (!state.currentTutorialId) return;
     if (isNotesLoading) return;
-    
+
     const container = document.getElementById('medha-notes-list');
-    
+
     if (reset) {
       notesSkip = 0;
       notesHasMore = true;
@@ -300,34 +305,34 @@
         `;
       }
     }
-    
+
     if (!notesHasMore) return;
-    
+
     isNotesLoading = true;
     try {
-      const response = await chrome.runtime.sendMessage({ 
-        action: 'getNotes', 
-        data: { tutorialId: state.currentTutorialId, skip: notesSkip, limit: notesLimit } 
+      const response = await chrome.runtime.sendMessage({
+        action: 'getNotes',
+        data: { tutorialId: state.currentTutorialId, skip: notesSkip, limit: notesLimit }
       });
-      
+
       const fetchedNotes = response && response.data ? response.data : [];
       if (fetchedNotes.length < notesLimit) {
         notesHasMore = false;
       }
-      
+
       notesSkip += notesLimit;
-      
+
       if (reset) {
         state.notes = fetchedNotes;
       } else {
         state.notes = [...state.notes, ...fetchedNotes];
       }
-      
+
       renderNotes();
-    } catch (error) { 
+    } catch (error) {
       if (reset) {
-        state.notes = []; 
-        renderNotes(); 
+        state.notes = [];
+        renderNotes();
       }
     } finally {
       isNotesLoading = false;
@@ -342,7 +347,7 @@
       body.addEventListener('scroll', () => {
         // Only load more if notes tab is active
         if (!notesTab || !notesTab.classList.contains('active')) return;
-        
+
         // Load more when scrolled near the bottom (100px threshold)
         if (body.scrollHeight - body.scrollTop <= body.clientHeight + 100) {
           if (notesHasMore && !isNotesLoading) {
@@ -357,7 +362,7 @@
   // We can attach it in renderNotes safely if we make sure to only attach it once.
 
   function editNoteHandler(noteId) {
-    const note = (state.notes || []).find(n => n.id === noteId); 
+    const note = (state.notes || []).find(n => n.id === noteId);
     if (!note) { showNotification && showNotification('❌ Note not found', 'error'); return; }
 
     const existing = document.getElementById('medha-edit-note-modal');
@@ -369,7 +374,7 @@
     const modal = document.createElement('div');
     modal.id = 'medha-edit-note-modal';
     modal.className = 'medha-edit-note-modal';
-    
+
     modal.innerHTML = `
       <div class="medha-edit-note-content">
         <div class="medha-edit-note-header">
@@ -413,7 +418,7 @@
 
     const renderGallery = () => {
       let html = '';
-      
+
       // Render existing images to keep
       mediaToKeep.forEach((url, index) => {
         html += `
@@ -423,7 +428,7 @@
           </div>
         `;
       });
-      
+
       // Render new base64 images
       newImagesBase64.forEach((b64, index) => {
         html += `
@@ -495,14 +500,14 @@
       saveBtn.innerHTML = '<span class="medha-spinner"></span> Saving...';
 
       try {
-        await chrome.runtime.sendMessage({ 
-          action: 'updateNote', 
-          data: { 
-            noteId, 
+        await chrome.runtime.sendMessage({
+          action: 'updateNote',
+          data: {
+            noteId,
             updatedText,
             mediaToKeep,
             newImages: newImagesBase64
-          } 
+          }
         });
         showNotification && showNotification('✅ Note updated successfully!', 'success');
         closeModal();
@@ -689,6 +694,64 @@
     finally { btn.disabled = false; btn.innerHTML = '<span class="icon">📚</span> Expand'; }
   }
 
+  async function downloadPdf() {
+    if (!state.currentTutorialId) return;
+
+    const btn = document.getElementById('medha-download-pdf-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="medha-spinner" style="width: 14px; height: 14px; border-width: 2px;"></span> Downloading...';
+    }
+
+    try {
+      const { authToken } = await chrome.storage.local.get(['authToken']);
+      const { url: baseUrl } = await chrome.runtime.sendMessage({ action: 'getApiBaseUrl' });
+      
+      const response = await fetch(`${baseUrl}/notes/tutorial/${state.currentTutorialId}/download`, {
+          method: 'GET',
+          headers: {
+              ...(authToken && { 'Authorization': `Bearer ${authToken}` })
+          }
+      });
+      
+      if (!response.ok) throw new Error("Failed to download PDF");
+      
+      let filename = "NoteTube_notes.pdf";
+      const contentDisposition = response.headers.get('Content-Disposition');
+      if (contentDisposition) {
+          const matchUTF8 = contentDisposition.match(/filename\*=utf-8''([^;]+)/i);
+          if (matchUTF8) {
+              filename = decodeURIComponent(matchUTF8[1]);
+          } else {
+              const match = contentDisposition.match(/filename="?([^"]+)"?/);
+              if (match) filename = match[1];
+          }
+      }
+      
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showNotification && showNotification(' PDF downloaded successfully!', 'success');
+    } catch (error) {
+      console.error("PDF Download error:", error);
+      showNotification && showNotification('❌ Failed to download PDF.', 'error');
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="icon">📄</span> Download Notes PDF';
+      }
+    }
+  }
+
   ns.features.addNote = addNote;
   ns.features.toggleVoiceRecording = toggleVoiceRecording;
   ns.features.rewriteNote = rewriteNote;
@@ -699,6 +762,5 @@
   ns.features.processScreenshot = processScreenshot;
   ns.features.removeImage = removeImage;
   ns.features.showImageModal = showImageModal;
+  ns.features.downloadPdf = downloadPdf;
 })();
-
-

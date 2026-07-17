@@ -9,8 +9,8 @@ Note Tube injects an interactive side-panel directly into YouTube, giving you an
 Switching back and forth between YouTube and a separate note-taking app is distracting and inefficient. You lose context, miss important timestamps, and constantly have to pause and rewind. Note Tube solves this by embedding a smart learning companion right into YouTube. It syncs your notes with the video timeline and provides an AI that understands the video context to answer your questions on the fly.
 
 ## Key Features
-- **Smart Timestamped Notes**: Take notes that are automatically linked to the exact moment in the video. Click a timestamp later to jump right back to that spot.
-- **Interactive Quizzes & Analysis**: Auto-generate quizzes directly from the video content to test your knowledge. Review your performance with comprehensive feedback, scores, and correct answers in the beautiful Analysis module.
+- **Smart Timestamped Notes & Export**: Take notes that are automatically linked to the exact moment in the video. Click a timestamp later to jump right back to that spot. Download your complete note session as a beautifully formatted PDF.
+- **Interactive Quizzes & Analysis**: Auto-generate up to 2 interactive quizzes per tutorial directly from the video content to test your knowledge. Review your performance with comprehensive feedback, scores, and correct answers in the beautiful Analysis module.
 - **AI Chat Assistant**: Ask questions about the tutorial you're watching, and the AI will provide contextual answers based on the video's content.
 - **Voice Input**: Use your microphone to quickly dictate notes or chat with the AI, powered by Whisper speech-to-text.
 - **AI Text Enhancement**: Instantly rewrite and polish your notes using our built-in AI rewriting tools.
@@ -89,7 +89,7 @@ We have ambitious plans for the future of Note Tube! Some upcoming features in o
 
 ### Current Challenges
 As we scale these features, we are actively working through a few technical hurdles:
-- **AI Cost at Scale**: Generating context-heavy features (like interactive quizzes and full-length summaries) requires significant LLM usage, which poses a challenge for maintaining cost-efficiency as our user base grows.
+- **AI Cost at Scale**: Generating context-heavy features (like interactive quizzes and full-length summaries) requires significant LLM usage, which poses a challenge for maintaining cost-efficiency as our user base grows. Currently, we limit quiz generation to 2 per tutorial to manage these compute constraints.
 
 
 ## Backend Repository

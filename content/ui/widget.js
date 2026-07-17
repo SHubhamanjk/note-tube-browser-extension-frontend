@@ -63,6 +63,7 @@
     document.getElementById('medha-generate-quiz')?.addEventListener('click', () => ns.features && ns.features.generateQuiz && ns.features.generateQuiz());
     document.querySelectorAll('.medha-tab').forEach(tab => { tab.addEventListener('click', () => switchTab(tab.dataset.tab)); });
     document.getElementById('medha-add-note').addEventListener('click', () => ns.features && ns.features.addNote && ns.features.addNote());
+    document.getElementById('medha-download-pdf-btn').addEventListener('click', () => ns.features && ns.features.downloadPdf && ns.features.downloadPdf());
     document.getElementById('medha-voice-btn').addEventListener('click', () => ns.features && ns.features.toggleVoiceRecording && ns.features.toggleVoiceRecording());
     
     // Chat voice input
@@ -366,6 +367,12 @@
               <button id="medha-remove-image" class="medha-remove-image-btn" title="Remove">×</button>
             </div>
             <button id="medha-add-note" class="medha-btn-modern medha-btn-primary">Add Note</button>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; margin-bottom: 8px; padding: 0 4px;">
+            <h3 style="margin: 0; font-size: 14px; font-weight: 600; color: #d1d5db;">Your Notes</h3>
+            <button id="medha-download-pdf-btn" class="medha-btn-secondary medha-btn-sm" style="display: none;" title="Download as PDF">
+              <span class="icon">📄</span> Download Notes PDF
+            </button>
           </div>
           <div id="medha-notes-list" class="medha-notes-list"><div class="medha-empty-state"><div class="medha-empty-icon"></div><div class="medha-empty-text">No notes yet. Start taking notes!</div></div></div>
         </div>
