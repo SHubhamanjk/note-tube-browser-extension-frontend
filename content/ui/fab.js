@@ -152,8 +152,8 @@
     }
     const logoUrl = chrome.runtime.getURL('assets/logo.png');
     fab.innerHTML = `
-      <div class="medha-fab-icon"><img src="${logoUrl}" alt="Medha.ai" style="width: 100%; height: 100%; object-fit: contain;" /></div>
-      <div class="medha-fab-close" title="Close Medha AI">✖</div>
+      <div class="medha-fab-icon"><img src="${logoUrl}" alt="Note Tube" style="width: 100%; height: 100%; object-fit: contain;" /></div>
+      <div class="medha-fab-close" title="Close Note Tube">✖</div>
       <div class="medha-fab-resize-handle medha-fab-resize-br"></div>
       <div class="medha-fab-tooltip">Expand Learning Widget<br><small style="font-size: 11px; opacity: 0.8;">Drag corner to resize</small></div>
     `;
@@ -165,7 +165,10 @@
       closeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         fab.remove();
-        showNotification && showNotification('Medha AI floating icon closed. Refresh the page to bring it back.', 'info');
+        if (window.Medha && window.Medha.state) {
+          window.Medha.state.isFabClosed = true;
+        }
+        showNotification && showNotification('Note Tube floating icon closed. Refresh the page to bring it back.', 'info');
       });
     }
 

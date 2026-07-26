@@ -325,7 +325,7 @@
     widget.innerHTML = `
       <div class="medha-header">
         <div class="medha-header-title">
-          <span class="medha-logo"><img src="${chrome.runtime.getURL('assets/logo.png')}" alt="Medha.ai" style="width: 100%; height: 100%; object-fit: contain;" /></span>
+          <span class="medha-logo"><img src="${chrome.runtime.getURL('assets/logo.png')}" alt="Note Tube" style="width: 100%; height: 100%; object-fit: contain;" /></span>
           <div class="medha-title-text">
             <div class="medha-brand">Note Tube</div>
             <div class="medha-session-info">

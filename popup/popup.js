@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       
       showForgotMessage('OTP sent! Check your email.', 'success');
     } catch (error) {
-      showForgotMessage(error.message || 'Failed to send OTP. Please try again.', 'error');
+      showForgotMessage(error.message || 'No account registered with this email address.', 'error');
     } finally {
       setLoading('send-otp-btn', false);
     }
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div style="margin-bottom: 24px;">
             <p style="font-size: 16px; font-weight: 600; color: var(--popup-text-primary); margin: 0 0 12px 0; text-align: center;">Keep the Learning Engine Running</p>
             <p style="font-size: 13px; color: var(--popup-text-secondary); line-height: 1.6; margin: 0 0 16px 0;">
-              Medha.ai is built with passion to make learning accessible and powerful. Your support helps us maintain infrastructure, enhance AI capabilities, add new features, and keep everything free for learners worldwide.
+              Note Tube is built with passion to make learning accessible and powerful. Your support helps us maintain infrastructure, enhance AI capabilities, add new features, and keep everything free for learners worldwide.
             </p>
             <ul style="list-style: none; padding: 0; margin: 0 0 16px 0;">
               <li style="font-size: 12px; color: var(--popup-text-primary); line-height: 1.8; padding: 6px 0 6px 20px; position: relative;">Maintain and improve server infrastructure</li>

@@ -39,6 +39,10 @@
     const maxAttempts = 50; // Check for up to 5 seconds (50 * 100ms)
     let checkInterval = null;
     
+    if (window.Medha.state) {
+      window.Medha.state.isFabClosed = false;
+    }
+    
     // Cleanup function
     const clearObserver = () => {
       if (window._medhaVideoObserver) {
@@ -382,10 +386,9 @@
     }
   });
   
-  // Failsafe: Ensure FAB is visible if on a watch page and neither FAB nor widget exists
   setInterval(() => {
     if (window.location.href.includes('/watch?v=')) {
-      if (!document.getElementById('medha-fab') && !document.getElementById('medha-widget')) {
+      if (!document.getElementById('medha-fab') && !document.getElementById('medha-widget') && !(window.Medha.state && window.Medha.state.isFabClosed)) {
         window.Medha.ui && window.Medha.ui.createFloatingIcon && window.Medha.ui.createFloatingIcon();
       }
     }
